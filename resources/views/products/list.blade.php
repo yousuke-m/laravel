@@ -35,6 +35,7 @@
             </tr>
             @endforeach
         </table>
+        <a class="button" href="{{ route('create') }}">出品する</a>
     </div>
 </div>
 <script>

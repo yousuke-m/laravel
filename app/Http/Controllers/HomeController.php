@@ -15,6 +15,11 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
     }
+    // @return view
+    public function showTop()
+    {
+        return view('welcome');
+    }
 
     /**
      * Show the application dashboard.
@@ -24,5 +29,10 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+    // サイト転移
+    public function redirectPath()
+    {
+        return '/products';
     }
 }

@@ -12,6 +12,15 @@ class ShopsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Shop::class, 10)->create();
+        Shop::create([
+            'user_id' => '1',
+            'name' => 'CAFE A',
+            'description' => 'cafe Aの説明〜',
+        ]);
+        Shop::create([
+            'user_id' => '2',
+            'name' => 'CAFE B',
+            'description' => 'cafe Bの説明〜',
+        ]);
     }
 }

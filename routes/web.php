@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,15 +9,27 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-// ホーム画面を表示
-Route::get('/', 'ProductController@showList')->name('products');
-Route::get('/products/{$id}', 'ProductController@showDetail')->name('show');
-
-// Route::get('/', 'ShopController@showList')->name('shops');
+// トップ画面を表示
+Route::get('/', 'HomeController@showTop')->name('top');
+// ログイン画面を表示
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
+// ショップ一覧を表示
+Route::get('/shop', 'ShopController@showlist')->name('shops');
+// ショップ詳細を表示
+Route::get('/shop/{id}', 'ShopController@showDetail')->name('shop');
+// 商品登録画面を表示
+Route::get('/shops/create', 'ShopController@showCreate')->name('make');
+// 商品登録画面
+Route::post('/shops/create', 'ShopController@exeCreate')->name('registration');
+// 商品一覧を表示
+Route::get('/product', 'ProductController@showList')->name('products');
+// 商品登録画面を表示
+Route::get('/product/create', 'ProductController@showCreate')->name('create');
+// 商品登録画面
+Route::post('/product/create', 'ProductController@exeRegister')->name('register_pro');
+// 商品詳細を表示
+Route::get('/products/{id}', 'ProductController@showDetail')->name('show');
+
+
+
