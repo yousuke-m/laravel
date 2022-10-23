@@ -27,6 +27,8 @@ class ShopController extends Controller
     public function showDetail($id)
     {
         $shop = Shop::find($id);
+        $products = $shop->products;
+        dd($products);
         if (is_null($shop)) {
             \Session::flash('err_msg', 'データがありません。');
             return redirect(route('shops'));
