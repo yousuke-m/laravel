@@ -14,6 +14,7 @@ Route::get('/', 'HomeController@showTop')->name('top');
 // ログイン画面を表示
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
+
 // ショップ一覧を表示
 Route::get('/shop', 'ShopController@showlist')->name('shops');
 // ショップ詳細を表示
@@ -22,6 +23,8 @@ Route::get('/shop/{id}', 'ShopController@showDetail')->name('shop');
 Route::get('/shops/create', 'ShopController@showCreate')->name('make');
 // 商品登録画面
 Route::post('/shops/create', 'ShopController@exeCreate')->name('registration');
+Route::post('/shops/{shop_id}', 'ProductController@shopCSV')->name('productsCSV');
+
 // 商品一覧を表示
 Route::get('/product', 'ProductController@showList')->name('products');
 // 商品登録画面を表示
