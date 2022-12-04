@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.app')
 @section('title', '商品登録')
 @section('content')
     <div class="row">

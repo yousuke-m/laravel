@@ -14,9 +14,9 @@ class Product extends Model
         'name',
         'description',
         'price',
-        'name'
+        'stock'
     ];
-    public function shop() {
+    public function shops() {
         return $this->belongsTo('App\Models\Shop');
     }
 }

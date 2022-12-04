@@ -19,32 +19,16 @@
                 <th>番号</th>
                 <th>ショップ</th>
                 <th>日付</th>
-                <th></th>
-                <th></th>
             </tr>
             @foreach($shops as $shop)
             <tr>
                 <td>{{ $shop->id  }}</td>
                 <td><a href="/shop/{{ $shop->id }}">{{ $shop->name  }}</a></td>
                 <td>{{ $shop->updated_at  }}</td>
-                {{-- <td><button type="button" class="btn btn-primary" onclick="location.href='/shop/edit/{{ $$shop->id }}'">編集</button></td> --}}
-                {{-- <form method="POST" action="{{ route('delete', $product->id) }}" onSubmit="return checkDelete()"> --}}
-                @csrf
-                <td><button type="submit" class="btn btn-primary" onclick=>削除</button></td>
-                </form>
             </tr>
             @endforeach
         </table>
         <a class="button" href="{{ route('make') }}">新しいショップを開設する</a>
     </div>
 </div>
-<script>
-// function checkDelete(){
-//     if(window.confirm('削除してよろしいですか？')){
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
-</script>
 @endsection

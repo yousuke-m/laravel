@@ -13,12 +13,12 @@ use Illuminate\Support\Facades\Auth;
 
 class ShopController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
 
         $this->middleware('auth');
-
     }
-    
+
     // @return view
     public function showList()
     {
@@ -28,33 +28,8 @@ class ShopController extends Controller
             ['shops' => $shops]
         );
     }
-    /**
-     * 詳細画面の表示
-     *
-     * @param  int  $id
-     * @return View
-     */
-    public function showDetail($id)
-    {
-        $shop = Shop::find($id);
-        $products = $shop->products;
-        if (is_null($shop)) {
-            \Session::flash('err_msg', 'データがありません。');
-            return redirect(route('shops'));
-        }
-        return view(
-            'shop.detail',
-            compact('shop','products')
-        );
-    }
 
-    // public function showList(Request $request)
-    // {
-    //     $user_id = Auth::id(); //ログインユーザーのID取得
-    //     $user_shop = Shop::with('user')->where('user_id', '=', $user_id)->simplePaginate(8); //ログインユーザーのIDに紐ついた在庫のみ取得
-    //     return view('Shops.index', ['deta' => $deta]); // views/stock/list.blade.phpに取得データを渡す
-    // }
-    /**
+        /**
      * 登録画面の表示
      *
      * 
@@ -76,10 +51,10 @@ class ShopController extends Controller
     public function exeCreate(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|max:32|unique:shops',
+            'name' => 'required|max:32',
             'description' => 'required|max:255'
         ]);
-        $shop = new Shop([ 
+        $shop = new Shop([
             'user_id' => Auth::id(),
             'name' => $request->input('name'),
             'description' => $request->input('description'),
@@ -88,24 +63,67 @@ class ShopController extends Controller
         \Session::flash('err_msg', 'ショップを登録しました。');
         return redirect(route('shops'));;
     }
+    /**
+     * 詳細画面の表示
+     *
+     * @param  int  $id
+     * @return View
+     */
+    public function showDetail($shop_id)
+    {
+        $shop = Shop::find($shop_id);
+        $user_id = Auth::id();
+        $products = $shop->products;
+        if (is_null($shop)) {
+            \Session::flash('err_msg', 'データがありません。');
+            return redirect(route('shops'));
+        }
+        return view(
+            'shop.detail',
+            compact('shop', 'products','user_id')
+        );
+    }
 
-    // public function exeCreate(Request $request, $shop_id) {
-    //     dd($request->all());
-    //     $shop = Shop::find($shop_id);
 
-    //     $this->validate($request, [
-    //         'name' => 'required|max:32|space|unique:shops,name,' . $shop->id . ',id',
-    //         'description' => 'required|max:255|space'
-    //     ]);
+    // ショップ編集画面
 
-      
-    //     $shop->user_id = Auth::id();
-    //     $shop->name = $request->input('name');
-    //     $shop->description = $request->input('description');
+    public function edit($shop_id)
+    {
+        $shop = Shop::find($shop_id);
+        if ($shop->user_id == Auth::id()) {
+            return view('shop.edit', compact('shop'));
+        }
 
-    //     $shop->save();
+        return abort(403);
+    }
 
-    //     return redirect()->action('ShopController@showDetail', ['shop_id' => $shop->id]);
-    // }
-    
+    // ショップ編集処理
+
+    public function update(Request $request, $shop_id)
+    {
+        $shop = Shop::find($shop_id);
+
+        $this->validate($request, [
+            'name' => 'required|max:32',
+            'description' => 'required|max:255'
+        ]);
+
+
+        $shop->user_id = Auth::id();
+        $shop->name = $request->input('name');
+        $shop->description = $request->input('description');
+
+        $shop->save();
+
+        return redirect()->action('ShopController@showDetail', ['shop_id' => $shop->id]);
+    }
+
+    // 削除機能
+
+    public function destroy($shop_id) {
+        $shop = Shop::find($shop_id);
+        $shop->delete();
+        \Session::flash('err_msg', 'ショップを削除しました。');
+        return redirect(route('shops'));
+    }
 }

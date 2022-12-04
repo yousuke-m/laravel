@@ -3,8 +3,9 @@
 @section('content')
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+          
             <h1>商品登録</h1>
-            <form method="POST" action="{{ Route('register_pro') }}" onSubmit="return checkSubmit()">
+            <form method="POST" action="{{ Route('product.register',['shop_id'=>$shop->id]) }}" onSubmit="return checkSubmit()">
                 @csrf
                 <div class="form-group">
                     <label for="content">
@@ -54,7 +55,7 @@
                     @endif
                 </div>
                 <div class="mt-5">
-                    <a class="btn btn-secondary" href="{{ route('products') }}">
+                    <a class="btn btn-secondary" href="{{ route('shop',['shop_id'=>$shop->id,]) }}">
                         キャンセル
                     </a>
                     <button type="submit" class="btn btn-primary">
